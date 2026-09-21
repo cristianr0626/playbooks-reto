@@ -1,0 +1,17 @@
+---
+- name: Instalar agente Zabbix
+  hosts: linux
+  become: yes
+ 
+  tasks:
+ 
+    - name: Instalar zabbix-agent
+      dnf:
+        name: zabbix-agent
+        state: present
+ 
+    - name: Iniciar servicio
+      service:
+        name: zabbix-agent
+        enabled: yes
+        state: started
