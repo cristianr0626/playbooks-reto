@@ -52,3 +52,18 @@
           Version: {{ ansible_distribution_version }}
           CPU: {{ ansible_processor_vcpus }}
           RAM: {{ ansible_memtotal_mb }} MB
+
+- name: Actualizar sistema Linux
+  hosts: linux
+  become: yes
+ 
+  tasks:
+ 
+    - name: Actualizar todos los paquetes
+      dnf:
+        name: "*"
+        state: latest
+ 
+    - name: Reiniciar si es necesario
+      reboot:
+      when: ansible_facts['os_family'] == "RedHat"
