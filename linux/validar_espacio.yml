@@ -1,6 +1,6 @@
 ---
 - name: Validar espacio en disco Linux
-  hosts: linux
+  hosts: aws_rhel9
   become: yes
   vars:
     umbral_uso: 80
