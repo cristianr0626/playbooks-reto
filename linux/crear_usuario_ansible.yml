@@ -1,0 +1,26 @@
+---
+- name: Crear usuario de automatización
+  hosts: linux
+  become: yes
+ 
+  tasks:
+ 
+    - name: Crear grupo ansible
+      group:
+        name: ansible
+        state: present
+ 
+    - name: Crear usuario ansible
+      user:
+        name: ansible
+        group: ansible
+        shell: /bin/bash
+        create_home: yes
+        state: present
+ 
+    - name: Configurar sudo
+      copy:
+        dest: /etc/sudoers.d/ansible
+        content: |
+          ansible ALL=(ALL) NOPASSWD:ALL
+        mode: '0440'
