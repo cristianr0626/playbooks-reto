@@ -1,6 +1,6 @@
 ---
 - name: Actualizar Windows
-  hosts: aws_win1
+  hosts: os_windows
  
   tasks:
  
@@ -12,7 +12,7 @@
         reboot: yes
 
 - name: Crear usuario Ansible
-  hosts: aws_win1
+  hosts: os_windows
  
   tasks:
  
@@ -30,7 +30,7 @@
         state: present
 
 - name: Generar reporte Windows
-  hosts: aws_win1
+  hosts: os_windows
   tasks:
     - name: Obtener información
       win_shell: |
@@ -46,7 +46,7 @@
         dest: C:\Temp\reporte.txt
 
 - name: Revisar CPU Windows
-  hosts: aws_win1
+  hosts: os_windows
  
   tasks:
  
@@ -59,7 +59,7 @@
         msg: "Uso CPU actual {{ cpu.stdout }}"
 
 - name: Verificar servicios Windows
-  hosts: aws_win1
+  hosts: os_windows
  
   vars:
     servicios:
