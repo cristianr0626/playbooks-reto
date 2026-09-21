@@ -1,0 +1,17 @@
+---
+- name: Generar reporte Linux
+  hosts: linux
+  gather_facts: yes
+ 
+  tasks:
+ 
+    - name: Generar reporte
+      copy:
+        dest: "/tmp/reporte_{{ inventory_hostname }}.txt"
+        content: |
+          Hostname: {{ ansible_hostname }}
+          IP: {{ ansible_default_ipv4.address }}
+          Sistema: {{ ansible_distribution }}
+          Version: {{ ansible_distribution_version }}
+          CPU: {{ ansible_processor_vcpus }}
+          RAM: {{ ansible_memtotal_mb }} MB
