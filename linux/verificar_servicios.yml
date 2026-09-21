@@ -1,0 +1,19 @@
+---
+- name: Verificar servicios Linux
+  hosts: linux
+  become: yes
+  vars:
+    servicios:
+      - sshd
+      - chronyd
+      - rsyslog
+  tasks:
+    - name: Validar servicios
+      systemd:
+        name: "{{ item }}"
+      register: resultado
+      loop: "{{ servicios }}"
+    - name: Mostrar estado
+      debug:
+        msg: "{{ item.item }} -> {{ item.status.ActiveState }}"
+      loop: "{{ resultado.results }}"
