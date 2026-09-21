@@ -16,3 +16,23 @@
       fail:
         msg: "Disco crítico. Uso actual {{ disk_usage.stdout }}%"
       when: disk_usage.stdout | int > umbral_uso
+
+---
+- name: Verificar servicios Linux
+  hosts: aws_rhel9
+  become: yes
+  vars:
+    servicios:
+      - sshd
+      - chronyd
+      - rsyslog
+  tasks:
+    - name: Validar servicios
+      systemd:
+        name: "{{ item }}"
+      register: resultado
+      loop: "{{ servicios }}"
+    - name: Mostrar estado
+      debug:
+        msg: "{{ item.item }} -> {{ item.status.ActiveState }}"
+      loop: "{{ resultado.results }}"
