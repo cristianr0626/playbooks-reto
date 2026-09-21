@@ -17,7 +17,6 @@
         msg: "Disco crítico. Uso actual {{ disk_usage.stdout }}%"
       when: disk_usage.stdout | int > umbral_uso
 
----
 - name: Verificar servicios Linux
   hosts: aws_rhel9
   become: yes
