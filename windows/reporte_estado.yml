@@ -1,0 +1,16 @@
+---
+- name: Generar reporte Windows
+  hosts: windows
+  tasks:
+    - name: Obtener información
+      win_shell: |
+        Get-ComputerInfo |
+        Select CsName,
+               WindowsVersion,
+               OsName,
+               TotalPhysicalMemory
+      register: reporte
+    - name: Guardar reporte
+      win_copy:
+        content: "{{ reporte.stdout }}"
+        dest: C:\Temp\reporte.txt
