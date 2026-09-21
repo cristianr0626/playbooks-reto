@@ -1,0 +1,18 @@
+---
+- name: Validar espacio en disco Linux
+  hosts: linux
+  become: yes
+  vars:
+    umbral_uso: 80
+  tasks:
+    - name: Obtener uso de disco
+      shell: df -h / | tail -1 | awk '{print $5}' | sed 's/%//'
+      register: disk_usage
+      changed_when: false
+    - name: Mostrar resultado
+      debug:
+        msg: "Uso actual del disco: {{ disk_usage.stdout }}%"
+    - name: Fallar si supera el umbral
+      fail:
+        msg: "Disco crítico. Uso actual {{ disk_usage.stdout }}%"
+      when: disk_usage.stdout | int > umbral_uso
