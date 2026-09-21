@@ -1,6 +1,6 @@
 ---
 - name: Actualizar Windows
-  hosts: windows
+  hosts: aws_win1
  
   tasks:
  
@@ -10,3 +10,21 @@
           - SecurityUpdates
           - CriticalUpdates
         reboot: yes
+
+- name: Crear usuario Ansible
+  hosts: aws_win1
+ 
+  tasks:
+ 
+    - name: Crear usuario
+      win_user:
+        name: ansible
+        password: "PasswordTemporal123!"
+        state: present
+ 
+    - name: Agregar a administradores
+      win_group_membership:
+        name: Administrators
+        members:
+          - ansible
+        state: present
