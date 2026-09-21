@@ -1,0 +1,22 @@
+---
+- name: Verificar servicios Windows
+  hosts: windows
+ 
+  vars:
+    servicios:
+      - Spooler
+      - W32Time
+      - WinRM
+ 
+  tasks:
+ 
+    - name: Consultar servicios
+      win_service:
+        name: "{{ item }}"
+      register: estado
+      loop: "{{ servicios }}"
+ 
+    - name: Mostrar resultado
+      debug:
+        msg: "{{ item.name }} - {{ item.state }}"
+      loop: "{{ estado.results }}"
