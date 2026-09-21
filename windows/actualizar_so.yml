@@ -44,3 +44,16 @@
       win_copy:
         content: "{{ reporte.stdout }}"
         dest: C:\Temp\reporte.txt
+
+- name: Revisar CPU Windows
+  hosts: aws_win1
+ 
+  tasks:
+ 
+    - name: Obtener CPU
+      win_shell: |
+        (Get-Counter '\Processor(_Total)\% Processor Time').CounterSamples.CookedValue
+      register: cpu
+ 
+    - debug:
+        msg: "Uso CPU actual {{ cpu.stdout }}"
