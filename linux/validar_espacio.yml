@@ -37,7 +37,7 @@
       loop: "{{ resultado.results }}"
 
 - name: Generar reporte Linux
-  hosts: linux
+  hosts: aws_rhel9
   gather_facts: yes
  
   tasks:
@@ -54,7 +54,7 @@
           RAM: {{ ansible_memtotal_mb }} MB
 
 - name: Actualizar sistema Linux
-  hosts: linux
+  hosts: aws_rhel9
   become: yes
  
   tasks:
@@ -63,6 +63,33 @@
       dnf:
         name: "*"
         state: latest
+
+
+- name: Crear usuario de automatización
+  hosts: linux
+  become: yes
+ 
+  tasks:
+ 
+    - name: Crear grupo ansible
+      group:
+        name: ansible
+        state: present
+ 
+    - name: Crear usuario ansible
+      user:
+        name: ansible
+        group: ansible
+        shell: /bin/bash
+        create_home: yes
+        state: present
+ 
+    - name: Configurar sudo
+      copy:
+        dest: /etc/sudoers.d/ansible
+        content: |
+          ansible ALL=(ALL) NOPASSWD:ALL
+        mode: '0440'
  
     - name: Reiniciar si es necesario
       reboot:
