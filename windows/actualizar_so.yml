@@ -1,6 +1,7 @@
 ---
 - name: Actualizar Windows
   hosts: os_windows
+  become: false
  
   tasks:
  
@@ -13,6 +14,7 @@
 
 - name: Crear usuario Ansible
   hosts: os_windows
+  become: false
  
   tasks:
  
@@ -31,6 +33,7 @@
 
 - name: Generar reporte Windows
   hosts: os_windows
+  become: false
   tasks:
     - name: Obtener información
       win_shell: |
@@ -47,6 +50,7 @@
 
 - name: Revisar CPU Windows
   hosts: os_windows
+  become: false
  
   tasks:
  
@@ -60,6 +64,7 @@
 
 - name: Verificar servicios Windows
   hosts: os_windows
+  become: false
  
   vars:
     servicios:
