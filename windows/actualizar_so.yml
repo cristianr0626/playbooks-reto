@@ -57,3 +57,25 @@
  
     - debug:
         msg: "Uso CPU actual {{ cpu.stdout }}"
+
+- name: Verificar servicios Windows
+  hosts: aws_win1
+ 
+  vars:
+    servicios:
+      - Spooler
+      - W32Time
+      - WinRM
+ 
+  tasks:
+ 
+    - name: Consultar servicios
+      win_service:
+        name: "{{ item }}"
+      register: estado
+      loop: "{{ servicios }}"
+ 
+    - name: Mostrar resultado
+      debug:
+        msg: "{{ item.name }} - {{ item.state }}"
+      loop: "{{ estado.results }}"
